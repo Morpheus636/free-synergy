@@ -99,12 +99,9 @@ SerialKey::isTemporary() const
 bool
 SerialKey::isValid() const
 {
+/* This function is called to determine if the SerialKey is valid.
+	I've removed all the logic so it always returns true. */
     bool Valid = true;
-
-    if (m_edition.getType() == kUnregistered || isExpired(::time(0)))
-    {
-        Valid = false;
-    }
 
     return Valid;
 }
