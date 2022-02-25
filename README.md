@@ -1,21 +1,7 @@
-# Synergy Core
+# Free Synergy
+**A fork of Synergy Core**
 
-This is the open source core component of Synergy, a keyboard and mouse sharing tool.
-
-**[We're hiring!](https://symless.com/careers)** *Join the Synergy Team (Node.js, React, C++)*
-
-**News:** Visit the [Symless blog](https://symless.com/blog/) for updates
-
-## Recommended
-
-Things most people will need.
-
-* [Download](https://members.symless.com/download-authentication) - Get the compiled version of Synergy 1 or Synergy 2.
-* [Contact Support](https://symless.com/contact-support) - Open a support ticket and talk directly to the Synergy team.
-* [Help Guides](https://symless.com/help) - Self-help guides and information for when you don't want to talk to people.
-* [Join us on Slack](https://bit.ly/synergy-slack-2020) - Talk to other Synergy users in real time using instant messaging.
-* [Symless Forums](https://forums.symless.com/) - Discuss Synergy issues on the Symless Forums.
-* [Symless Blog](https://symless.com/blog/) - Find out what's happening at Symless and with Synergy development.
+This is the open source core component of Synergy, a keyboard and mouse sharing tool, with Symless's DRM components removed.
 
 ## Advanced Users
 
@@ -26,4 +12,3 @@ Not for the faint hearted. Only use these if you know what you're doing.
 * [Translations](https://crowdin.com/project/synergy-core) - If you want to submit translations to the Synergy Core.
 * [Text Config](https://github.com/symless/synergy-core/wiki/Text-Config) - Write a text config file when running Synergy Core manually.
 * [Command Line](https://github.com/symless/synergy-core/wiki/Command-Line) - Go full manual and run Synergy Core from the command line.
-
