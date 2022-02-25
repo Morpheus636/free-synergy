@@ -27,3 +27,4 @@ src/setup/win32/synergy.suo
 /CMakeLists.txt.*
 /doxygen/
 /deps
+.project
