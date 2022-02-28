@@ -1,0 +1,69 @@
+name: Compile for Windows
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    runs-on: windows-2019
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+    
+      - name: Install Build Dependency - Bonjour SDK
+        run: |
+          new-Item -Force -ItemType Directory -Path ".\deps\"
+          $client = new-object System.Net.WebClient
+          $client.DownloadFile("https://binaries.symless.com/bonjour/BonjourSDK.zip",".\deps\bonjoursdk.zip")
+          $client.DownloadFile("https://binaries.symless.com/bonjour/Bonjour64.msi",".\deps\Bonjour64.msi")
+          Get-ChildItem '.\deps\' -Filter *.zip | Expand-Archive -DestinationPath '.\deps'
+          msiexec.exe /i ${pwd}\deps\Bonjour64.msi INSTALLDIR="${pwd}\deps\Bonjour" /qb
+
+      - name: Install Build Dependency - QT
+        uses: jurplel/install-qt-action@v2.14.0
+        with:
+          # Directory to install Qt
+          dir: C:\Qt
+          # Version of Qt to install
+          version: 5.12.10
+      
+      - name: Install Build Dependency - OpenSSL
+        run: |
+          choco install openssl -y --forcex64 --no-progress
+          Copy-Item -Path "C:\Program Files\OpenSSL-Win64" -Destination "ext\openssl\windows\x64" -Recurse
+        
+      - name: Add msbuild to PATH
+        run: set PATH=%PATH%;C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\current\bin
+        shell: cmd
+
+      - name: Compile
+        run: |
+          set PATH=%PATH%;C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\current\bin
+          mkdir build
+          cd build
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64 10.0.19041.0
+          cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Release ..
+          msbuild synergy-core.sln /p:Platform="x64" /p:Configuration=Release /m
+          echo: finished msbuild
+          cd ..
+          copy ext\openssl\windows\x64\bin\* build\
+        shell: cmd
+
+      - name: Build .msi Installer
+        run: |
+          set PATH=%PATH%;C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\current\bin
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64 10.0.19041.0          
+          cd build\installer
+          msbuild /p:Configuration=Release
+          cd ..
+          cd ..
+        shell: cmd
+
+      - name: Upload Artifacts
+        uses: softprops/action-gh-release@v0.1.14
+        with: 
+          files: |
+            build/installer/bin/Release/Synergy.msi

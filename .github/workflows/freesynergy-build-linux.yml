@@ -1,0 +1,62 @@
+name: Compile for Linux
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            qtcreator \
+            qtbase5-dev \
+            qttools5-dev \
+            cmake \
+            make \
+            g++ \
+            xorg-dev \
+            libssl-dev \
+            libx11-dev \
+            libsodium-dev \
+            libgl1-mesa-glx \
+            libegl1-mesa \
+            libcurl4-openssl-dev \
+            libavahi-compat-libdnssd-dev \
+            qtdeclarative5-dev \
+            libqt5svg5-dev \
+            libsystemd-dev \
+            libnotify-dev \
+            libgdk-pixbuf2.0-dev \
+            libglib2.0-dev
+
+      - name: Compile
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+
+      - name: Zip binaries
+        uses: papeloto/action-zip@v1
+        with:
+          files: |
+            build/bin/synergy
+            build/bin/synergyc
+            build/bin/synergyd
+            build/bin/synergys
+            build/bin/syntool
+          dest: linux-bin.zip
+          
+      - name: Upload Artifacts
+        uses: softprops/action-gh-release@v0.1.14
+        with: 
+          files: linux-bin.zip

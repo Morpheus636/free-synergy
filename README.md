@@ -1,7 +1,10 @@
 # Free Synergy
 **A fork of Synergy Core**
 
-This is the open source core component of Synergy, a keyboard and mouse sharing tool, with Symless's DRM components removed.
+This is the open source core component of Synergy, a keyboard and mouse sharing tool, with Symless's DRM components removed. The only development in this repo is removing DRM, and custom CICD workflows to build for different operating systems automatically. For feature requests and bug reports, unless they are specifically related to freesynergy, please direct your attention to the [symless/synergy-core](https://github.com/symless/synergy-core) repo
+
+[![Linux Builds](https://github.com/Morpheus636/free-synergy/actions/workflows/freesynergy-build-linux.yml/badge.svg)](https://github.com/Morpheus636/free-synergy/actions/workflows/freesynergy-build-linux.yml)
+[![Windows Builds](https://github.com/Morpheus636/free-synergy/actions/workflows/freesynergy-build-windows.yml/badge.svg)](https://github.com/Morpheus636/free-synergy/actions/workflows/freesynergy-build-windows.yml)
 
 ## Advanced Users
 
